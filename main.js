@@ -3,13 +3,19 @@ const WEATHER_API_KEY = 'ed685752c9664abeae8122501242406';
 
 const submitBtn = document.querySelector('button');
 submitBtn.addEventListener('click', () => {
+    const loader = document.querySelector('.loader');
+    loader.classList.remove('hidden');
+
     const city = document.getElementById('city').value;
     const weather_request = `http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${city}`;
+
     retrieveWeatherData(weather_request).then((result) => {
-        const gif_request = `http://api.giphy.com/v1/gifs/translate?api_key=${GIF_API_KEY}&s=${result.city} ${result.description}`;
+        const gif_request = `http://api.giphy.com/v1/gifs/translate?api_key=${GIF_API_KEY}&s=${result.description}`;
+
         retrieveGIF(gif_request).then((result) => {
             const img = document.querySelector('img');
             img.src = result;
+            loader.classList.add('hidden');
         })
     });
 })
